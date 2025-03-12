@@ -1,0 +1,86 @@
+/* Footer Styling */
+.footer {
+    margin-top: 80px;
+    background-color: #000; /* Black background */
+    color: #fff; /* White text */
+    padding: 20px 0;
+  }
+  
+  .foot {
+    padding: 20px 0;
+  }
+  
+  .footer-content {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+  }
+  
+  .footlinks h4 {
+    margin-top: 30px;
+    font-size: 20px;
+    font-weight: 600;
+    color: #fff; /* White text */
+    margin-bottom: 30px;
+    position: relative;
+  }
+  
+  .footlinks h4::before {
+    content: "";
+    position: absolute;
+    height: 2px;
+    width: 70px;
+    left: 0;
+    bottom: -7px;
+    background: #fff; /* White underline */
+  }
+  
+  .footlinks ul li {
+    margin-bottom: 15px;
+  }
+  
+  .footlinks ul li a {
+    font-size: 17px;
+    color: #ddd; /* Light gray for links */
+    display: block;
+    transition: ease 0.3s;
+    text-decoration: none;
+  }
+  
+  .footlinks ul li a:hover {
+    transform: translateX(6px);
+    color: #fff; /* White on hover */
+  }
+  
+  .social a {
+    font-size: 25px;
+    margin: 4px;
+    height: 40px;
+    width: 40px;
+    color: #000; /* Black icons */
+    background-color: #fff; /* White background */
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    transition: ease 0.3s;
+    text-decoration: none;
+  }
+  
+  .social a:hover {
+    transform: scale(1.2);
+    background-color: #ddd; /* Light gray on hover */
+  }
+  
+  .end {
+    text-align: center;
+    padding-top: 60px;
+    padding-bottom: 12px;
+  }
+  
+  .end p {
+    font-size: 15px;
+    color: #fff; /* White text */
+    letter-spacing: 1px;
+    font-weight: 300;
+  }
