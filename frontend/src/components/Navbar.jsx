@@ -33,6 +33,7 @@ const Navbar = () => {
       <button onClick={handleLogout} style={styles.button}>Logout</button>
     </nav>
   );
+
 };
 
 const styles = {

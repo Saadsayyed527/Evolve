@@ -1,75 +1,63 @@
 import React, { useState, useEffect, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axiosInstance from '../api/axios';
 import AuthContext from '../context/AuthContext';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate
 
 const Notifications = () => {
   const { user } = useContext(AuthContext);
-  const [notifications, setNotifications] = useState([]);
+  const [foods, setFoods] = useState([]);
   const [error, setError] = useState('');
-  const navigate = useNavigate(); // Initialize useNavigate
+  const navigate = useNavigate();
 
-  // Fetch notifications
+  // If user is not logged in, redirect to login
+  if (!user) {
+    navigate('/login');
+    return null;
+  }
+
   useEffect(() => {
-    const fetchNotifications = async () => {
+    const fetchFoods = async () => {
       try {
-        const response = await axiosInstance.get('/api/notifications');
-        console.log('Notifications data:', response.data); // Debugging
-        setNotifications(response.data);
+        const response = await axiosInstance.get('/api/food');
+        setFoods(response.data);
       } catch (error) {
-        console.error('Error fetching notifications:', error);
-        setError('Failed to fetch notifications');
+        console.error('Error fetching food listings:', error);
+        setError('Failed to fetch food listings');
       }
     };
 
-    fetchNotifications();
+    fetchFoods();
   }, []);
 
-  // Handle completing a pickup
-  const handleCompletePickup = async () => {
+  const handleRequestPickup = async () => {
     try {
-      // const response = await axiosInstance.put(`/api/pickup/complete/${pickupId}`);
-      // console.log('Pickup completion response:', response.data);
-      navigate('/');
-      // Show alert message
-      alert('Process Completed');
-
-      // Navigate to the home page
-
-      // Update the notifications list to reflect the completed status
-      // setNotifications((prevNotifications) =>
-      //   prevNotifications.map((notification) =>
-      //     notification.pickupId?._id === pickupId
-      //       ? { ...notification, pickupId: { ...notification.pickupId, status: 'Completed' } }
-      //       : notification
-      //   )
-      // );
+      navigate("/home")
+      alert('Pickup requested successfully!');
+      
     } catch (error) {
-      console.error('Error completing pickup:', error);
-      setError('Failed to complete pickup');
+      console.error('Error requesting pickup:', error);
+      setError('Failed to request pickup');
     }
   };
 
   return (
     <div style={styles.container}>
-      <h1 style={styles.title}>Notifications</h1>
+      <h1 style={styles.title}>Food Listings</h1>
       {error && <p style={styles.error}>{error}</p>}
       <ul style={styles.list}>
-        {notifications.map((notification) => (
-          <li key={notification._id} style={styles.listItem}>
-            <p style={styles.message}>{notification.message}</p>
-            {/* {user.role === 'Restaurant' && notification.pickupId?.status === 'Approved' && (
-              
-            )} */}
-            <button
+        {foods.map((food) => (
+          <li key={food._id} style={styles.listItem}>
+            <p style={styles.foodName}>{food.name}</p>
+            <p style={styles.foodDetails}>Quantity: {food.quantity} units</p>
+            <p style={styles.foodDetails}>Location: {food.location}</p>
+            
+              <button
                 style={styles.button}
-                onClick={() => handleCompletePickup()}
+                onClick={() => handleRequestPickup()}
               >
-                Complete Pickup
+                completed request 
               </button>
-            {user.role === 'NGO' && notification.pickupId?.status === 'Completed' && (
-              <p style={styles.completed}>Completed</p>
-            )}
+          
           </li>
         ))}
       </ul>
@@ -106,10 +94,16 @@ const styles = {
     padding: '20px',
     marginBottom: '20px',
   },
-  message: {
-    fontSize: '1.1rem',
+  foodName: {
+    fontSize: '1.2rem',
+    fontWeight: '500',
     color: '#333',
     marginBottom: '10px',
+  },
+  foodDetails: {
+    fontSize: '1rem',
+    color: '#666',
+    marginBottom: '5px',
   },
   button: {
     padding: '10px 20px',
@@ -120,13 +114,10 @@ const styles = {
     fontSize: '1rem',
     cursor: 'pointer',
     transition: 'background-color 0.3s ease',
+    marginTop: '10px',
   },
   buttonHover: {
     backgroundColor: '#0056b3',
-  },
-  completed: {
-    color: '#28a745',
-    fontWeight: '500',
   },
 };
 
