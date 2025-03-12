@@ -1,0 +1,154 @@
+# 📡 Food Donation API Documentation
+
+## 🌐 Backend API Routes
+These routes handle authentication, food donations, blockchain storage, and IPFS integration.
+
+---
+## 1️⃣ Authentication Routes
+
+### 🔹 User Registration
+**Endpoint:** `POST /api/auth/register`
+
+#### Request Body (JSON):
+```json
+{
+  "name": "Test Restaurant",
+  "email": "test@example.com",
+  "password": "password123",
+  "role": "Restaurant"
+}
+```
+
+#### Response:
+```json
+{
+  "message": "User registered successfully",
+  "user": { "id": "123456789", "name": "Test Restaurant", "role": "Restaurant" }
+}
+```
+
+### 🔹 User Login
+**Endpoint:** `POST /api/auth/login`
+
+#### Request Body (JSON):
+```json
+{
+  "email": "test@example.com",
+  "password": "password123"
+}
+```
+
+#### Response:
+```json
+{
+  "token": "your_jwt_token",
+  "user": { "id": "123456789", "name": "Test Restaurant", "role": "Restaurant" }
+}
+```
+
+---
+## 2️⃣ Food Donation Routes
+
+### 🔹 Create a Food Donation
+**Endpoint:** `POST /api/food/donate`
+
+#### Headers:
+```makefile
+Authorization: Bearer your_jwt_token
+```
+
+#### Request Body (JSON):
+```json
+{
+  "foodName": "Pasta",
+  "quantity": 10,
+  "unit": "kg",
+  "expiryDate": "2025-03-20",
+  "location": "123 Main Street, City",
+  "donorId": "123456789",
+  "additionalNotes": "Ready to eat, needs refrigeration"
+}
+```
+
+#### Response:
+```json
+{
+  "message": "Food donation recorded successfully",
+  "donation": { "id": "987654321", "foodName": "Pasta", "quantity": 10 }
+}
+```
+
+### 🔹 View Available Food Donations
+**Endpoint:** `GET /api/food/list`
+
+#### Response:
+```json
+[
+  {
+    "id": "987654321",
+    "foodName": "Pasta",
+    "quantity": 10,
+    "unit": "kg",
+    "expiryDate": "2025-03-20",
+    "location": "123 Main Street, City",
+    "donorId": "123456789",
+    "status": "Available"
+  }
+]
+```
+
+---
+## 3️⃣ Blockchain & IPFS Routes
+
+### 🔹 Upload Donation to IPFS
+**Endpoint:** `POST /api/blockchain/store`
+
+#### Headers:
+```makefile
+Authorization: Bearer your_jwt_token
+```
+
+#### Request Body (JSON):
+```json
+{
+  "donationId": "987654321",
+  "foodName": "Pasta",
+  "quantity": 10,
+  "unit": "kg",
+  "expiryDate": "2025-03-20",
+  "location": "123 Main Street, City",
+  "donorId": "123456789"
+}
+```
+
+#### Response:
+```json
+{
+  "message": "Data stored on IPFS and Blockchain",
+  "ipfsHash": "Qmabcdef123456",
+  "blockchainTransaction": "0x123abc456def"
+}
+```
+
+---
+## 🔬 Testing the APIs
+Use **Postman**, **cURL**, or any REST client to test these routes.
+
+### Example cURL Request for Testing Food Donation:
+```sh
+curl -X POST http://localhost:5000/api/food/donate \
+-H "Content-Type: application/json" \
+-H "Authorization: Bearer your_jwt_token" \
+-d '{
+  "foodName": "Pasta",
+  "quantity": 10,
+  "unit": "kg",
+  "expiryDate": "2025-03-20",
+  "location": "123 Main Street, City",
+  "donorId": "123456789"
+}'
+```
+
+---
+✅ **This API ensures secure food donation management with blockchain transparency!** 🚀
+
